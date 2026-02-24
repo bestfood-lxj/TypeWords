@@ -78,6 +78,8 @@ const toggleShowTranslate = () => (settingStore.translate = !settingStore.transl
 const toggleDictation = () => (settingStore.dictation = !settingStore.dictation)
 const togglePanel = () => (settingStore.showPanel = !settingStore.showPanel)
 const skip = () => typingArticleRef?.nextSentence()
+const back = () => typingArticleRef?.prevSentence()
+const uptop = () => typingArticleRef?.prevSection()
 const collect = () => toggleArticleCollect(articleData.article)
 const shortcutKeyEdit = () => edit()
 
@@ -401,6 +403,8 @@ useEvents([
   [ShortcutKey.PlayWordPronunciation, play],
   [ShortcutKey.ShowWord, show],
   [ShortcutKey.Next, skip],
+  [ShortcutKey.Back, back],
+  [ShortcutKey.Uptop, uptop],
   [ShortcutKey.ToggleCollect, collect],
   [ShortcutKey.EditArticle, shortcutKeyEdit],
 ])
@@ -480,7 +484,7 @@ provide('currentPractice', currentPractice)
         </div>
         <div class="bottom">
           <div class="flex justify-between items-center gap-2">
-            <div class="stat">
+            <div class="stat" v-if="false">
               <div class="row">
                 <div class="num">{{ currentPractice.length }}次/{{ msToMinute(total(currentPractice, 'spend')) }}</div>
                 <div class="line"></div>
@@ -521,6 +525,16 @@ provide('currentPractice', currentPractice)
 
                 <BaseIcon :title="`下一句(${settingStore.shortcutKeyMap[ShortcutKey.Next]})`" @click="skip">
                   <IconFluentArrowBounce20Regular class="transform-rotate-180" />
+                </BaseIcon>
+                <BaseIcon
+                    :title="`上一句(${settingStore.shortcutKeyMap[ShortcutKey.Back]})`"
+                    @click="back">
+                  <IconFluentArrowBounce20Regular />
+                </BaseIcon>
+                <BaseIcon
+                    :title="`上一段(${settingStore.shortcutKeyMap[ShortcutKey.Uptop]})`"
+                    @click="uptop">
+                  <IconFluentArrowRedo20Filled />
                 </BaseIcon>
                 <BaseIcon
                   :title="`播放当前句子(${settingStore.shortcutKeyMap[ShortcutKey.PlayWordPronunciation]})`"

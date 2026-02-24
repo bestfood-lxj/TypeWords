@@ -51,6 +51,7 @@ export interface SettingState {
   showConflictNotice2: boolean // 其他脚本/插件冲突提示
   showUsageTips: boolean //  显示使用提示
   ignoreSimpleWord: boolean // 忽略简单词
+  ttsOk: boolean //tts ok
   wordPracticeMode: WordPracticeMode // 单词练习模式
   wordPracticeType: WordPracticeType // 单词练习类型
   disableShowPracticeSettingDialog: boolean // 不默认显示练习设置弹框
@@ -107,6 +108,7 @@ export const getDefaultSettingState = (): SettingState => ({
   showConflictNotice2: true,
   showUsageTips: true,
   ignoreSimpleWord: false,
+  ttsOk: true,
   wordPracticeMode: WordPracticeMode.System,
   wordPracticeType: WordPracticeType.FollowWrite,
   disableShowPracticeSettingDialog: false,

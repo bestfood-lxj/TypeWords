@@ -83,7 +83,7 @@ export function usePlayCorrect() {
   return playAudio
 }
 
-export function usePlayWordAudio() {
+export function  usePlayWordAudio_source() {
   const settingStore = useSettingStore()
   let audio = $ref<HTMLAudioElement>(null)
 
@@ -110,6 +110,15 @@ export function usePlayWordAudio() {
   return playAudio
 }
 
+export function usePlayWordAudio() {
+  const settingStore = useSettingStore();
+  if (settingStore.ttsOk) {
+    return useTTsPlayAudio(settingStore.ttsOption);
+  } else {
+    return usePlayWordAudio_source();
+  }
+}
+
 export function useTTsPlayAudio() {
   const settingStore = useSettingStore()
 
@@ -120,9 +129,10 @@ export function useTTsPlayAudio() {
     msg.volume = settingStore.wordSoundVolume / 100
     msg.pitch = 1
     msg.lang = 'en-US'
-    let voiceList = speechSynthesis.getVoices().filter(v => v.lang === 'en-US')
-    if (voiceList && voiceList.length) {
-      msg.voice = voiceList.find(v => v.name.includes('Emma ')) || voiceList[0]
+    const voices = speechSynthesis.getVoices()
+    let r = voices.find(v => v.name.includes("Female") && v.lang === "en-US");
+    if (r) {
+      msg.voice = r
     }
     speechSynthesis.speak(msg)
   }

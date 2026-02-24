@@ -105,6 +105,8 @@ export const DefaultShortcutKeyMap = {
   [ShortcutKey.ShowWord]: 'Escape',
   [ShortcutKey.Previous]: 'Alt+⬅',
   [ShortcutKey.Next]: 'Tab',
+  [ShortcutKey.Back]: 'Ctrl+Backspace',
+  [ShortcutKey.Uptop]: 'Ctrl+U',
   [ShortcutKey.ToggleSimple]: '`',
   [ShortcutKey.ToggleCollect]: 'Enter',
   [ShortcutKey.PreviousChapter]: 'Ctrl+⬅',

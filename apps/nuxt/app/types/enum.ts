@@ -18,6 +18,8 @@ export enum ShortcutKey {
   ShowWord = 'ShowWord',
   EditArticle = 'EditArticle',
   Next = 'Next',
+  Back = 'Back',
+  Uptop = 'Uptop',
   Previous = 'Previous',
   ToggleSimple = 'ToggleSimple',
   ToggleCollect = 'ToggleCollect',
