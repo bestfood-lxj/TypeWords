@@ -133,6 +133,8 @@ export function useTTsPlayAudio() {
     let r = voices.find(v => v.name.includes("Female") && v.lang === "en-US");
     if (r) {
       msg.voice = r
+    }else{
+      msg.voice = voices.find(v => v.lang.startsWith("en-"));
     }
     speechSynthesis.speak(msg)
   }
