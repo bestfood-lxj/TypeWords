@@ -120,51 +120,55 @@ export function usePlayWordAudio() {
   }
 }
 
+
 export function useTTsPlayAudio() {
   const settingStore = useSettingStore()
-
   function play(text: string) {
-    try{
-      if(speechSynthesis.speaking || speechSynthesis.pending){
-        speechSynthesis.cancel() // 防止 Chrome 队列卡死
+    var checkok= ()=>{
+      let res = true;
+      try{
+        if(!speechSynthesis){
+          res = false
+        }
+      }catch(err){
+        res = false
       }
-    }catch(err){
-      console.log(err)
+      return res
     }
-    let msg = new SpeechSynthesisUtterance(text)
-    msg.rate = settingStore.wordSoundSpeed
-    msg.volume = settingStore.wordSoundVolume / 100
-    msg.pitch = 1
-    msg.lang = 'en-US'
-    const voices = speechSynthesis.getVoices()
-    let r = voices.find(v => v.name.includes("Female") && v.lang === "en-US");
-    if (r) {
-      msg.voice = r
-    }else{
-      msg.voice = voices.find(v => v.lang.startsWith("en-"));
+    if(checkok()){
+      speechSynthesis.cancel() // 防止 Chrome 队列卡死
+      let msg = new SpeechSynthesisUtterance(text)
+      msg.rate = settingStore.wordSoundSpeed
+      msg.volume = settingStore.wordSoundVolume / 100
+      msg.pitch = 1
+      msg.lang = 'en-US'
+      const voices = speechSynthesis.getVoices()
+      let r = voices.find(v => v.name.includes("Female") && v.lang === "en-US");
+      if (r) {
+        msg.voice = r
+      }else{
+        msg.voice = voices.find(v => v.lang.startsWith("en-"));
+      }
+      speechSynthesis.speak(msg)
+    } else {
+      isSpeaking().then(speaking=>{
+        if(speaking){
+          return stop();
+        }
+      }).then(()=>getVoices()).then(voices=>{
+        let onev = voices.find(v => v.name.includes("Female") && v.lang === "en-US");
+        if (!onev){
+          onev = voices.find(v => v.lang.startsWith("en-"));
+        }
+        speak({
+          text,
+          voiceId: onev?.id,
+        }).catch(err=>console.log)
+      }).catch(err=>console.log)
     }
-    speechSynthesis.speak(msg)
   }
-  if(window.SpeechSynthesisUtterance){
-    return play
-  }else{
-    async function nativetts(text: string){
-      const speaking = await isSpeaking();
-      if(speaking){
-        await stop();
-      }
-      const voices = await getVoices();
-      let onev = voices.find(v => v.name.includes("Female") && v.lang === "en-US");
-      if (!onev){
-        onev = voices.find(v => v.lang.startsWith("en-"));
-      }
-      speak({
-        text,
-        voiceId: onev?.id,
-      })
-    }
-    return nativetts
-  }
+  return play
+
 
 }
 
