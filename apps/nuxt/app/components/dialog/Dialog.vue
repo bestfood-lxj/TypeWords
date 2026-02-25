@@ -210,7 +210,7 @@ $time: 0.3s;
 }
 
 .modal-root {
-  @apply fixed top-0 left-0 z-999 flex items-center justify-center w-full h-full overflow-hidden;
+  @apply fixed top-0 left-0 z-999 flex items-center justify-center w-full h-full overflow-scroll;
 
   .modal-mask {
     @apply fixed top-0 left-0 w-full h-full transition-all duration-300;
