@@ -2,6 +2,7 @@ import { onMounted, watchEffect } from 'vue'
 import { useSettingStore } from '@/stores/setting'
 
 import { ENV, PronunciationApi, SoundFileOptions } from '@/config/env'
+import { speak, stop, getVoices, isSpeaking } from "tauri-plugin-tts-api";
 
 export function useSound(audioSrcList?: string[], audioFileLength?: number) {
   let audioList: HTMLAudioElement[] = $ref([])
@@ -124,7 +125,9 @@ export function useTTsPlayAudio() {
 
   function play(text: string) {
     try{
-      spceechSynthesis.cancel() // 防止 Chrome 队列卡死
+      if(speechSynthesis.speaking || speechSynthesis.pending){
+        speechSynthesis.cancel() // 防止 Chrome 队列卡死
+      }
     }catch(err){
       console.log(err)
     }
@@ -142,8 +145,27 @@ export function useTTsPlayAudio() {
     }
     speechSynthesis.speak(msg)
   }
+  if(window.SpeechSynthesisUtterance){
+    return play
+  }else{
+    async function nativetts(text: string){
+      const speaking = await isSpeaking();
+      if(speaking){
+        await stop();
+      }
+      const voices = await getVoices();
+      let onev = voices.find(v => v.name.includes("Female") && v.lang === "en-US");
+      if (!onev){
+        onev = voices.find(v => v.lang.startsWith("en-"));
+      }
+      speak({
+        text,
+        voiceId: onev?.id,
+      })
+    }
+    return nativetts
+  }
 
-  return play
 }
 
 export function usePlayAudio(url: string) {

@@ -9,5 +9,8 @@
     "static": "nuxt generate && node scripts/copyDist.js",
     "generate": "nuxt generate && node scripts/do.js && node ../../scripts/deploy-eo-pages.js --dir dist --name type-words-deploy",
     "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "tauri-plugin-tts-api": "^0.1.2"
   }
 }
