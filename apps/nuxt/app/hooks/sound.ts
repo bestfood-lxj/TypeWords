@@ -123,7 +123,11 @@ export function useTTsPlayAudio() {
   const settingStore = useSettingStore()
 
   function play(text: string) {
-    speechSynthesis.cancel() // 防止 Chrome 队列卡死
+    try{
+      spceechSynthesis.cancel() // 防止 Chrome 队列卡死
+    }catch(err){
+      console.log(err)
+    }
     let msg = new SpeechSynthesisUtterance(text)
     msg.rate = settingStore.wordSoundSpeed
     msg.volume = settingStore.wordSoundVolume / 100
