@@ -368,4 +368,12 @@ function updateList(e) {
     }
   }
 }
+@media (max-width: 1000px) {
+  .add-article {
+    display: block;
+    .aslide {
+      width: 100%;
+    }
+  }
+}
 </style>

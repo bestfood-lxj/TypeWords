@@ -221,30 +221,7 @@ const stages = $computed(() => {
       <StageProgress :stages="stages" />
 
       <div class="flex justify-between items-center">
-        <div class="stat">
-          <div class="row">
-            <div class="num">{{ `${practiceData.index + 1}/${practiceData.words.length}` }}</div>
-            <div class="line"></div>
-            <div class="name">{{ status }}</div>
-          </div>
-          <div class="row">
-            <!--            <div class="num">{{ statStore.spend }}分钟</div>-->
-            <div class="num">{{ Math.floor(statStore.spend / 1000 / 60) }}{{ $t('minutes') }}</div>
-            <div class="line"></div>
-            <div class="name">{{ $t('time') }}</div>
-          </div>
-          <div class="row">
-            <div class="num">{{ statStore.total }}</div>
-            <div class="line"></div>
-            <div class="name">{{ $t('total_words') }}</div>
-          </div>
-          <div class="row">
-            <div class="num">{{ format(statStore.wrong, '', 0) }}</div>
-            <div class="line"></div>
-            <div class="name">{{ $t('errors') }}</div>
-          </div>
-        </div>
-        <div class="flex gap-2 justify-center items-center" id="toolbar-icons">
+        <div class="flex justify-center items-center" id="toolbar-icons">
           <SettingDialog type="word" />
 
           <VolumeSettingMiniDialog />

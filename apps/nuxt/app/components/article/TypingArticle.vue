@@ -1039,7 +1039,7 @@ $article-lh: 2.4;
 }
 
 // 移动端适配
-@media (max-width: 768px) {
+@media (max-width: 168px) {
   .typing-article {
     width: 100vw;
     max-width: 100%;
@@ -1118,7 +1118,7 @@ $article-lh: 2.4;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 180px) {
   .typing-article {
     padding: 0.5rem 0.3rem;
 

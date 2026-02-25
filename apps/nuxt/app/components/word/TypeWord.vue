@@ -867,7 +867,7 @@ const notice = $computed(() => {
     padding: 0 0.5rem 12rem;
 
     .word {
-      font-size: 2rem !important;
+      //font-size: 2rem !important;
       letter-spacing: 0.1rem;
       margin: 0.5rem 0;
     }
@@ -944,7 +944,7 @@ const notice = $computed(() => {
     padding: 0 0.3rem 12rem;
 
     .word {
-      font-size: 1.5rem !important;
+      //font-size: 1.5rem !important;
       letter-spacing: 0.05rem;
       margin: 0.3rem 0;
     }
