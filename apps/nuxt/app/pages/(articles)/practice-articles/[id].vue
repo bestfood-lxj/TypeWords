@@ -227,7 +227,7 @@ function setArticle(val: Article) {
       statStore.spend += 1000
     }
   }, 1000)
-
+  setPracticeArticleCache(null)
   _nextTick(typingArticleRef?.init)
 }
 

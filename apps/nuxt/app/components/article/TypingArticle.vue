@@ -131,7 +131,7 @@ watch(
   }
 )
 
-function init() {
+function init() {console.log(props.article.id)
   if (!props.article.id) return
   isSpace = isEnd = false
   let d = getPracticeArticleCache()
@@ -324,7 +324,7 @@ function nextSentence() {
     if (!props.article.sections[sectionIndex]) {
       console.log('打完了')
       isEnd = true
-      emit('complete')
+      //emit('complete')
     } else {
       if (isNameWord()) next()
       emit('play', { sentence: props.article.sections[sectionIndex][0], handle: false })
@@ -875,7 +875,7 @@ const currentPractice = inject('currentPractice', [])
       <div class="cursor" v-if="!isEnd" :style="{ top: cursor.top + 'px', left: cursor.left + 'px' }"></div>
     </div>
 
-    <div class="options flex justify-center" v-if="isEnd">
+    <div class="options flex justify-center">
       <BaseButton @click="emit('replay')">{{ $t('restart_practice') }} </BaseButton>
       <BaseButton v-if="store.sbook.lastLearnIndex < store.sbook.articles.length - 1" @click="emit('next')"
         >{{ $t('next_article') }}
