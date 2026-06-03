@@ -38,3 +38,6 @@ report.html
 .env.*
 !.env.example
 public/vscode
+
+# git worktree
+.worktree
