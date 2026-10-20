@@ -461,7 +461,6 @@ const next = () => {
 }
 
 function onTyping(e: KeyboardEvent) {
-  debugger
   if (!props.article.sections.length) return
   if (isTyping || isEnd) return
   isTyping = true

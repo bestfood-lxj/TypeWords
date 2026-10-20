@@ -378,7 +378,6 @@ function nextStage(originList: Word[], log: string = '', toast: boolean = false)
 }
 
 async function next(isTyping: boolean = true) {
-  debugger
   const complete = () => {
     console.log('全完学完了')
     showStatDialog = true

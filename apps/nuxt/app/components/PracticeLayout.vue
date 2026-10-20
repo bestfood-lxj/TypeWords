@@ -33,7 +33,7 @@ defineProps<{
 
 .footer-hide {
   .footer-wrap {
-    bottom: -6rem;
+    bottom: -5rem;
   }
 }
 
