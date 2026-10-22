@@ -140,8 +140,10 @@ async function init() {
 const initAudio = () => {
   _nextTick(() => {
     if (import.meta.server) return
-    audioRef.volume = settingStore.articleSoundVolume / 100
-    audioRef.playbackRate = settingStore.articleSoundSpeed
+    if (audioRef){
+      audioRef.volume = settingStore.articleSoundVolume / 100
+      audioRef.playbackRate = settingStore.articleSoundSpeed
+    }
   })
 }
 

@@ -190,6 +190,10 @@ export function usePlayWordAudio() {
     cancelWordPracticeAudio()
     const generation = ++wordPlaybackGeneration
     let playbackRate = settingStore.wordSoundSpeed
+    let onended = () => {
+      if (generation !== wordPlaybackGeneration) return
+      onEnd?.()
+    }
     if(settingStore.ttsOk){
       const ttsPlay = useTTsPlayAudio()
       ttsPlay(word, { rate: playbackRate, onEnd: onended })
@@ -217,10 +221,7 @@ export function usePlayWordAudio() {
     if (settingStore.soundType === 'uk') {
       url = `${PronunciationApi}${word}&type=1`
     }
-    let onended = () => {
-      if (generation !== wordPlaybackGeneration) return
-      onEnd?.()
-    }
+    
     wordAudio.onended = onended
     wordAudio.onplay = () => onPlay?.()
     wordAudio.onerror = () => {
@@ -260,7 +261,30 @@ export function useTTsPlayAudio() {
   const settingStore = useSettingStore()
 
   function play(text: string, options: TTsPlayOptions = {}) {
-    if (!text || typeof speechSynthesis === 'undefined') return
+    if (!text || typeof speechSynthesis === 'undefined') {
+      if( typeof speechSynthesis === 'undefined' ){
+        isSpeaking().then(speaking=>{
+          if(speaking){
+            return stop();
+          }
+        }).then(()=>getVoices()).then(voices=>{
+          let onev = voices.find(v => v.name.includes("Female") && v.lang === "en-US");
+          if (!onev){
+            onev = voices.find(v => v.lang.startsWith("en-"));
+          }
+          speak({
+            text,
+            voiceId: onev?.id,
+          }).then(res=>{
+            options.onEnd?.()
+          }).catch(err=>{
+            options.onEnd?.()
+            console.log(err)
+          })
+        }).catch(err=>console.log)
+      }
+      return
+    }
     const generation = ++ttsPlaybackGeneration
     speechSynthesis.cancel() // 防止 Chrome 队列卡死
     let msg = new SpeechSynthesisUtterance(text)
