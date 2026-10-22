@@ -128,6 +128,9 @@ function previewTtsVoice(voiceName: string) {
     <SettingItem :title="$t('auto_play_first_sentence')" :desc="$t('auto_play_first_sentence_desc')">
       <Switch v-model="settingStore.autoPlayFirstSentence" />
     </SettingItem>
+    <SettingItem title="tts First">
+      <Switch v-model="settingStore.ttsOk" />
+    </SettingItem>
     <SettingItem v-if="showVolumeSubsInSections" :title="$t('sentence_volume')">
       <Slider v-model="settingStore.sentenceSoundVolume" showText showValue unit="%" />
     </SettingItem>

@@ -57,6 +57,7 @@ export interface SettingState {
   showConflictNotice2: boolean // 其他脚本/插件冲突提示
   showUsageTips: boolean //  显示使用提示
   ignoreSimpleWord: boolean // 忽略简单词
+  ttsOk: boolean //tts ok
   wordPracticeMode: WordPracticeMode // 单词练习模式
   wordPracticeType: WordPracticeType // 单词练习类型
   autoNextWord: boolean // 自动切换下一个单词
@@ -109,6 +110,7 @@ export const getDefaultSettingState = (): SettingState => ({
   translate: true,
   showNearWord: true,
   ignoreCase: true,
+  ttsOk: true,
   allowWordTip: true,
   waitTimeForChangeWord: 300,
   spaceCooldownTime: 0,

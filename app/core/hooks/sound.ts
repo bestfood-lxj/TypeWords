@@ -164,7 +164,6 @@ export function cancelWordPracticeAudio() {
   wordPlaybackGeneration++
   ttsPlaybackGeneration++
   if (typeof speechSynthesis !== 'undefined') {
-    speechSynthesis.pause()
     speechSynthesis.cancel()
   }
   const wordAudio = getCachedWordAudio()
@@ -191,6 +190,11 @@ export function usePlayWordAudio() {
     cancelWordPracticeAudio()
     const generation = ++wordPlaybackGeneration
     let playbackRate = settingStore.wordSoundSpeed
+    if(settingStore.ttsOk){
+      const ttsPlay = useTTsPlayAudio()
+      ttsPlay(word, { rate: playbackRate, onEnd: onended })
+      return
+    }
     if (handle) {
       const key = word.trim().toLowerCase()
       const count = activeWordPlayCountMap.get(key) ?? 0
