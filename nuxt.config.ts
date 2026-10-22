@@ -50,8 +50,8 @@ const appBaseURL = normalizeBaseURL(process.env.NUXT_APP_BASE_URL || '/')
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  target: 'static',
   app: {
-    baseURL: appBaseURL,
     // keepalive: true,
     head: {
       title: 'Type Words — 免费英语单词练习 | Free English Typing Practice', // default fallback title
@@ -144,7 +144,7 @@ export default defineNuxtConfig({
   },
   // 实验性功能
   experimental: {
-    payloadExtraction: false, // 禁用 payload 提取，减少构建体积
+    payloadExtraction: 'client', // 禁用 payload 提取，减少构建体积
   },
   // TypeScript 配置
   typescript: {
