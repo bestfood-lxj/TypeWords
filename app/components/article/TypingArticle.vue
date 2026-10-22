@@ -353,7 +353,7 @@ async function nextSentence() {
       await articlePersistence.clear()
       runtimeStore.globalLoading = false
       isEnd = true
-      emit('complete')
+      //emit('complete')
     } else {
       if (isNameWord()) next()
       emit('play', { sentence: props.article.sections[sectionIndex][0], handle: false })
@@ -364,6 +364,98 @@ async function nextSentence() {
   }
   lock = false
   focusMobileInput()
+}
+
+function prevSentence() {
+    if(isEnd){
+      isEnd = false;
+    }
+    if (lock) return;
+    checkTranslateLocation();
+    lock = true;
+    let currentSection = props.article.sections[sectionIndex];
+    let currentSentence = currentSection[sentenceIndex];
+
+    if (stringIndex==0&&wordIndex==0){
+        let oldSentence;
+        if(sentenceIndex > 0 ){
+            oldSentence = currentSection[sentenceIndex - 1];
+            sentenceIndex--;
+        } else {
+            let oldSection = props.article.sections[sectionIndex - 1];
+            if(oldSection){
+                sectionIndex--;
+                sentenceIndex = oldSection?.length - 1 || 0;
+                oldSentence = oldSection[sentenceIndex];
+            }
+        }
+        oldSentence?.words.forEach((word, i) => {
+            word.input = "";
+        });
+    }else {
+        stringIndex = 0;
+        wordIndex = 0;
+        currentSentence.words.forEach((word, i) => {
+            word.input = "";
+        });
+    }
+
+    isSpace = false;
+    input = wrong = "";
+    if (isNameWord()){
+        next();
+    }
+    emit("play", {
+        sentence: props.article.sections[sectionIndex][sentenceIndex],
+        handle: false,
+    });
+    lock = false;
+    focusMobileInput();
+}
+
+function prevSection() {
+    if(isEnd){
+      isEnd = false;
+    }
+    if (lock) return;
+    checkTranslateLocation();
+    lock = true;
+    let currentSection = props.article.sections[sectionIndex];
+
+    if (stringIndex==0&&wordIndex==0&&sentenceIndex==0){
+        if (sectionIndex > 0 ){
+            sectionIndex--;
+            let oldSection = props.article.sections[sectionIndex];
+            if(oldSection){
+                oldSection.map(sentence=>{
+                    sentence.words.forEach(word=>{
+                        word.input = "";
+                    });
+                });
+            }
+        }
+    }else{
+        stringIndex = 0;
+        wordIndex = 0;
+        sentenceIndex = 0;
+        currentSection.map(sentence=>{
+            sentence.words.forEach(word=>{
+                word.input = "";
+            });
+        });
+    }
+
+    isSpace = false;
+    input = wrong = "";
+    if (isNameWord()){
+        next();
+    }
+    emit("play", {
+        sentence: props.article.sections[sectionIndex][sentenceIndex],
+        handle: false,
+    });
+    lock = false;
+    focusMobileInput();
 }
 
 const next = () => {
@@ -726,6 +818,8 @@ defineExpose({
   del,
   hideSentence,
   nextSentence,
+  prevSentence,
+  prevSection,
   init,
   applyPracticeCache,
   getIndex: () => {

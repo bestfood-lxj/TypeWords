@@ -26,6 +26,8 @@ export enum ShortcutKey {
   ShowWord = 'ShowWord',
   EditArticle = 'EditArticle',
   Next = 'Next',
+  Back = 'Back',
+  Uptop ='Uptop',
   Ignore = 'Ignore',
   Previous = 'Previous',
   ToggleSimple = 'ToggleSimple',

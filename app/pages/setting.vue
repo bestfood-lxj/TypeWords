@@ -154,6 +154,8 @@ function getShortcutKeyName(key: string): string {
     ShowWord: t('shortcut_show_word'),
     EditArticle: t('shortcut_edit_article'),
     Next: t('shortcut_next'),
+    Back: 'Senence Back',
+    Uptop: 'Section Up',
     Previous: t('shortcut_previous'),
     Ignore: t('shortcut_ignore'),
     ToggleSimple: t('shortcut_toggle_simple'),

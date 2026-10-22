@@ -107,7 +107,9 @@ export const DefaultShortcutKeyMap = {
   [ShortcutKey.RandomWrite]: 'Ctrl+R',
 
   [ShortcutKey.Previous]: 'Ctrl+⬅',
-  [ShortcutKey.Next]: 'Ctrl+➡',
+  [ShortcutKey.Next]: 'Ctrl+Alt+➡',
+  [ShortcutKey.Back]: 'Ctrl+Alt+Backspace',
+  [ShortcutKey.Uptop]: 'Ctrl+Alt+U',
   [ShortcutKey.PreviousChapter]: 'Alt+⬅',
   [ShortcutKey.NextChapter]: 'Alt+➡',
 
