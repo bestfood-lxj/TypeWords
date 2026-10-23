@@ -262,8 +262,8 @@ export function useTTsPlayAudio() {
   const settingStore = useSettingStore()
 
   function play(text: string, options: TTsPlayOptions = {}) {
-    if (!text || typeof speechSynthesis === 'undefined') {
-      if( typeof speechSynthesis === 'undefined' ){
+    if (!text|| (!(window.speechSynthesis?.speak)) || typeof speechSynthesis === 'undefined') {
+      if( (!(window.speechSynthesis?.speak)) ||typeof speechSynthesis === 'undefined' ){
         isSpeaking().then(speaking=>{
           if(speaking){
             return stop();
