@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 import { ENV, PronunciationApi, SoundFileOptions } from '../config/env'
 import { Toast } from '@/base'
+import { speak, stop, getVoices, isSpeaking } from "tauri-plugin-tts-api";
 
 /**
  * 获取当前浏览器的 OS+浏览器 组合 key，用于 ttsVoiceMap 的索引
