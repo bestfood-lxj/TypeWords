@@ -268,14 +268,9 @@ export function useTTsPlayAudio() {
           if(speaking){
             return stop();
           }
-        }).then(()=>getVoices()).then(voices=>{
-          let onev = voices.find(v => v.name.includes("Female") && v.lang === "en-US");
-          if (!onev){
-            onev = voices.find(v => v.lang.startsWith("en-"));
-          }
+        }).then(()=>{
           speak({
             text,
-            voiceId: onev?.id,
           }).then(res=>{
             options.onEnd?.()
           }).catch(err=>{
