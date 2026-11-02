@@ -335,6 +335,9 @@ function resetSameWordAfterViewUpdate(previousWord: Word) {
     if (word === targetWord) emitter.emit(EventKey.resetWord)
   })
 }
+function resetNow(){
+  emitter.emit(EventKey.resetWord)
+}
 
 // 显隐与阶段同步由 Registry applyPhase 负责（Phase 2）
 async function complete() {
@@ -517,6 +520,7 @@ useEvents([
   [EventKey.continueStudy, continueStudy],
   [ShortcutKey.Previous, nav.prev],
   [ShortcutKey.Next, throttle(() => nav.next(false), 300)],
+  [ShortcutKey.Uptop,resetNow],
   [ShortcutKey.Ignore, throttle(session.skip, 300)],
   [ShortcutKey.ToggleSimple, session.toggleWordSimpleForCurrent],
   [ShortcutKey.RepeatChapter, repeat],
@@ -625,7 +629,7 @@ useEvents([
       </Panel>
     </template>
     <template v-slot:footer>
-      <Footer @skipStep="nav.skipStep" />
+      <Footer @skipStep="nav.skipStep" @clear="resetNow" />
     </template>
   </PracticeLayout>
   <Statistics v-model="isComplete" :loading="settling" />

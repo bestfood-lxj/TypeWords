@@ -23,7 +23,8 @@ const displayActions = useInjectedDisplayActions()
 const effective = useInjectedDisplayPolicy()
 
 const emit = defineEmits<{
-  skipStep: []
+  skipStep: [],
+  clear:[]
 }>()
 
 let practiceData = inject<PracticeData>('practiceData')
@@ -76,7 +77,7 @@ const showSkipStep = computed(() => flowDisplay.value.showSkipStep)
 
       <div class="flex justify-between items-center">
         <div class="stat">
-          <div class="row">
+          <div class="row" v-if="false">
             <Tooltip title="进度 / 错误数 / 单词数">
               <div class="shrink-0">
                 <span> {{ practiceData.index + 1 }}</span> /
@@ -87,7 +88,7 @@ const showSkipStep = computed(() => flowDisplay.value.showSkipStep)
             <div class="line"></div>
             <div class="name">{{ status }}</div>
           </div>
-          <div class="row">
+          <div class="row" v-if="false">
             <Tooltip title="点击可暂停或恢复学习计时">
               <div class="num cursor-pointer" @click="onTimerRowClick">
                 <template v-if="statStore.timerPaused">
@@ -111,7 +112,12 @@ const showSkipStep = computed(() => flowDisplay.value.showSkipStep)
           <SettingDialog type="word" />
 
           <VolumeSettingMiniDialog />
-
+          <BaseIcon
+            @click="emit('clear')"
+            :title="`clear(${settingStore.shortcutKeyMap[ShortcutKey.NextStep]})`"
+          >
+            <IconFluentDismiss16Regular />
+          </BaseIcon>
           <BaseIcon
             v-if="showSkipStep"
             @click="emit('skipStep')"
