@@ -313,11 +313,68 @@ export function getShortcutKey(e: KeyboardEvent) {
   // console.log('key', shortcutKey)
   return shortcutKey
 }
+// 简单的 keyCode 转 key 映射（可按需扩充）
+function keyCodeToKey(code) {
+  const map = {
+    8: 'Backspace', 9: 'Tab', 13: 'Enter', 16: 'Shift',
+    17: 'Control', 18: 'Alt', 27: 'Escape', 32: ' ',
+    37: 'ArrowLeft', 38: 'ArrowUp', 39: 'ArrowRight', 40: 'ArrowDown',
+    46: 'Delete',
+  };
+  if (map[code]) return map[code];
+  // 字母与数字
+  if (code >= 65 && code <= 90) return String.fromCharCode(code).toLowerCase();
+  if (code >= 48 && code <= 57) return String.fromCharCode(code);
+  return 'Unidentified';
+}
+
+function normalizeKeyEvent(event) {
+  // 需要统一的属性及其兼容兜底逻辑
+  const fallbacks = {
+    // key：旧浏览器可能只有 keyCode / which
+    key: () => {
+      if (event.key && event.key !== 'Unidentified') return event.key;
+      const code = event.keyCode || event.which;
+      return keyCodeToKey(code);
+    },
+    // keyCode / which 在不同浏览器中可能互相缺失
+    keyCode: () => event.keyCode || event.which || 0,
+    which: () => event.which || event.keyCode || 0,
+    // code 在老浏览器中可能不存在
+    code: () => event.code ||event.key ||'',
+    // 修饰键状态
+    ctrlKey: () => !!event.ctrlKey,
+    shiftKey: () => !!event.shiftKey,
+    altKey: () => !!event.altKey,
+    metaKey: () => !!event.metaKey,
+  };
+
+  // 一些方法也需要绑定到原始 event 上，否则会报 Illegal invocation
+  const methods = {
+    preventDefault: () => event.preventDefault && event.preventDefault(),
+    stopPropagation: () => event.stopPropagation && event.stopPropagation(),
+  };
+
+  return new Proxy(event, {
+    get(target, prop, receiver) {
+      if (prop in fallbacks) {
+        return fallbacks[prop]();
+      }
+      if (prop in methods) {
+        return methods[prop];
+      }
+      const value = Reflect.get(target, prop, target);
+      // 原生方法需要以 target 作为 this 调用，否则会报错
+      return typeof value === 'function' ? value.bind(target) : value;
+    },
+  });
+}
 
 export function useStartKeyboardEventListener() {
   const settingStore = useSettingStore()
 
-  useEventListener('keydown', (e: KeyboardEvent) => {
+  useEventListener('keydown', (ev: KeyboardEvent) => {
+    const e = normalizeKeyEvent(ev)
     // console.log('keydown', e)
     // debugger
     //解决无法复制、全选的问题
